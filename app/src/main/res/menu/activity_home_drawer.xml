@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <item android:title="Meu curso">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_ced"
+                    android:icon="@drawable/ic_briefcase"
+                    android:title="Ciências de Educacao" />
+                <item
+                    android:id="@+id/nav_cag"
+                    android:icon="@drawable/ic_briefcase"
+                    android:title="Ciências A. Gestão" />
+                <item
+                    android:id="@+id/nav_eit"
+                    android:icon="@drawable/ic_global_server"
+                    android:title="Engenharia Informatica" />
+
+                <item
+                    android:id="@+id/nav_teolog"
+                    android:icon="@drawable/ic_bible"
+                    android:title="Teologia" />
+                <item
+                    android:id="@+id/nav_meus"
+                    android:icon="@drawable/ic_oath"
+                    android:title="Meus livros" />
+
+                <item
+                    android:id="@+id/nav_favorite"
+                    android:icon="@drawable/ic_file"
+                    android:title="Livros que eu gosto" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Mais">
+        <menu>
+
+            <item
+                android:id="@+id/nav_out"
+                android:title="Log out" />
+
+
+        </menu>
+    </item>
+
+</menu>
+
