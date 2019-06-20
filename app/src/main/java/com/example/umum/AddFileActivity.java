@@ -99,8 +99,6 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
             tvUpload.setText("Actualizar dados do Livro");
             Button button = findViewById(R.id.cag_add);
             button.setText("Atualizar livro");
-            //path = spinner.getSelectedItem().toString()+"/";
-
             if (path != null) {
                 mDatabaseReference = FirebaseDatabase.getInstance().getReference(path);
             }

@@ -1,10 +1,13 @@
 package com.example.umum.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.umum.AddFileActivity;
+import com.example.umum.Home;
 import com.example.umum.MyAdapter;
 import com.example.umum.PdfView;
 import com.example.umum.R;
@@ -37,6 +41,8 @@ public class MyBooks extends Fragment {
     private MyAdapter adapter;
     private RecyclerView rv;
     private ArrayList<UploadPDF> files;
+    private DatabaseReference mDatabase;
+    private ProgressDialog progressDialog;
 
     public MyBooks() {
         // Required empty public constructor
@@ -48,6 +54,7 @@ public class MyBooks extends Fragment {
 
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,9 +62,13 @@ public class MyBooks extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         SearchView searchView = view.findViewById(R.id.sv_pdf);
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
+
+        FloatingActionButton fb = view.findViewById(R.id.addEit);
+        fb.setVisibility(View.GONE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -93,8 +104,6 @@ public class MyBooks extends Fragment {
         FirebaseUser user = mAuth.getCurrentUser();
 
         for (String item : itens) {
-
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             mDatabase.child(item).orderByChild("userID").equalTo(Objects.requireNonNull(user).getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -143,7 +152,26 @@ public class MyBooks extends Fragment {
 
         builder1.setPositiveButton(
                 "Apagar",
-                (dialog, id) -> dialog.cancel());
+                (dialog, id) -> {
+
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Aguarde um instante");
+                    progressDialog.show();
+
+                    mDatabase.child(path).child(codigo).removeValue((databaseError, databaseReference) -> {
+
+                        progressDialog.dismiss();
+                        new AlertDialog.Builder(getContext())
+                                .setMessage("Apagou o livro")
+                                .setPositiveButton(android.R.string.yes, (dialog1, which) -> {
+                                    Intent intent = new Intent(getContext(), Home.class);
+                                    startActivity(intent);
+                                })
+                                .setIcon(android.R.drawable.alert_dark_frame)
+                                .show();
+                    });
+
+                });
 
         builder1.setNegativeButton(
                 "Actualizar",
