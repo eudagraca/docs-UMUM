@@ -1,7 +1,5 @@
 package com.example.umum;
 
-import android.support.annotation.NonNull;
-
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -20,6 +18,15 @@ public class UploadPDF {
     public UploadPDF() {
     }
 
+    public UploadPDF(String autor, String titulo, String url, String userID, String uploadPDFKey, String curso) {
+        this.autor = autor;
+        this.titulo = titulo;
+        this.url = url;
+        this.userID = userID;
+        UploadPDFKey = uploadPDFKey;
+        this.curso = curso;
+    }
+
     UploadPDF(String autor, String titulo, String url, String userID, String curso) {
         this.autor = autor;
         this.titulo = titulo;
@@ -35,7 +42,6 @@ public class UploadPDF {
         this.userID = uid;
     }
 
-    @NonNull
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -48,7 +54,7 @@ public class UploadPDF {
     }
 
 
-    private String getUserID() {
+    public String getUserID() {
         return userID;
     }
 
@@ -72,6 +78,10 @@ public class UploadPDF {
         this.titulo = titulo;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -84,8 +94,12 @@ public class UploadPDF {
         this.UploadPDFKey = id;
     }
 
-    private String getCurso() {
+    public String getCurso() {
         return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 
     public String getPath() {

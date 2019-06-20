@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,8 +95,12 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     tvUpload.setText("Partilhar de livro de Teologia");
                     break;
             }
+
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         } else {
             tvUpload.setText("Actualizar dados do Livro");
+            Button button = findViewById(R.id.cag_add);
+            button.setText("Atualizar livro");
             //path = spinner.getSelectedItem().toString()+"/";
 
             if (path != null) {
@@ -198,8 +203,11 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                                 .show();
 
                         sRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            UploadPDF upload = new UploadPDF(mAutor.getText().toString(), mTitulo.getText().toString(), String.valueOf(uri), Objects.requireNonNull(user).getUid(), path);
+                            Toast.makeText(this, String.valueOf(uri), Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(this, Objects.requireNonNull(user).getUid(), Toast.LENGTH_SHORT).show();
                             mDatabaseReference = FirebaseDatabase.getInstance().getReference(path);
+                            UploadPDF upload = new UploadPDF(mAutor.getText().toString(), mTitulo.getText().toString(), String.valueOf(uri), Objects.requireNonNull(user).getUid(), path);
                             mDatabaseReference.child(Objects.requireNonNull(mDatabaseReference.push().getKey())).setValue(upload);
                         });
                     })
