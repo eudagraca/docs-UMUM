@@ -95,8 +95,6 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                     tvUpload.setText("Partilhar de livro de Teologia");
                     break;
             }
-
-            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         } else {
             tvUpload.setText("Actualizar dados do Livro");
             Button button = findViewById(R.id.cag_add);
@@ -203,11 +201,8 @@ public class AddFileActivity extends AppCompatActivity implements View.OnClickLi
                                 .show();
 
                         sRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            Toast.makeText(this, String.valueOf(uri), Toast.LENGTH_SHORT).show();
-
-                            Toast.makeText(this, Objects.requireNonNull(user).getUid(), Toast.LENGTH_SHORT).show();
-                            mDatabaseReference = FirebaseDatabase.getInstance().getReference(path);
                             UploadPDF upload = new UploadPDF(mAutor.getText().toString(), mTitulo.getText().toString(), String.valueOf(uri), Objects.requireNonNull(user).getUid(), path);
+                            mDatabaseReference = FirebaseDatabase.getInstance().getReference(path);
                             mDatabaseReference.child(Objects.requireNonNull(mDatabaseReference.push().getKey())).setValue(upload);
                         });
                     })
